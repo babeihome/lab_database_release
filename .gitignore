@@ -1,0 +1,15 @@
+# ignore .idea which is created and used by pycharm
+/.idea/
+/lab_database/.idea/
+*~
+*.pyc
+*.o
+*.obj
+*.exe
+*.opensdf
+*.sln
+*.suo
+*.vcxproj
+*.filters
+*.pdb
+*.sdf
