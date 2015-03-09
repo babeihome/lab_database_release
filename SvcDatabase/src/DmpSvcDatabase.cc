@@ -34,13 +34,13 @@ std::fstream *DmpSvcDatabase::GetData(std::string t0)
 {
 	PyObject * result_py = NULL;
 	char * data_bubble = NULL;
-	fstream fs;
+	std::fstream fs;
 
 	Py_Initialize();
 
 	if (!Py_IsInitialized()){
-		printf("Initialized fail");
-		return -1;
+		DmpLogError << "Initialized fail" << DmpLogEndl;
+		return 0;
 	}
 
 	PyRun_SimpleString("import sys");
@@ -76,6 +76,6 @@ std::fstream *DmpSvcDatabase::GetData(std::string t0)
 	fs.close();
 	Py_Finalize();
 	getchar();
-	return 1;
+	return 0;
 }
 
