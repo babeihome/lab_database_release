@@ -21,8 +21,8 @@ public:
 
 public:
   bool LinkMySQL(std::string userName="DAMPEDB");
-  std::fstream *GetData(std::string t0){return 0;}		// return a file which contains all parameter, refer to t0
-  std::fstream *GetData(std::vector<std::string> conditions){return 0;}
+  std::fstream *GetData(std::string t0);		// return a file which contains all parameter, refer to t0
+  std::fstream *GetData(std::vector<std::string> conditions);
 
 };
 
