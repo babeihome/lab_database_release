@@ -65,13 +65,13 @@ std::fstream *DmpSvcDatabase::GetData(std::string t0)
 		return 0;
 	}
 	printf("C: Function imported\n");
-	PyObject *pArgv = Py_BuildValue("(s)", t0);
+	PyObject *pArgv = Py_BuildValue("(s)", t0.c_str());
 	printf("C: Is trying to call the import_data function\n");
 	result_py = PyEval_CallObject(pFunc, pArgv);
 	printf("C: function calling is over\n");
 	PyArg_Parse(result_py, "s", &data_bubble);
 	//Should make name of data package random
-	fs.open("./data_package.txt", ios::out);
+	fs.open("./data_package.txt", std::ios::out);
 	fs << data_bubble;
 	fs.close();
 	Py_Finalize();
