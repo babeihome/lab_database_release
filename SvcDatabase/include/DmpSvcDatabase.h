@@ -24,6 +24,8 @@ public:
   std::fstream *GetData(std::string t0);		// return a file which contains all parameter, refer to t0
   std::fstream *GetData(std::vector<std::string> conditions);
 
+private:
+	bool Test();
 };
 
 #endif
