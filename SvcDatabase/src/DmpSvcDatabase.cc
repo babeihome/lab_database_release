@@ -76,6 +76,11 @@ std::fstream *DmpSvcDatabase::GetData(std::string t0)
 	fs << data_bubble;
 	fs.close();
 	Py_Finalize();
+	if (Py_IsInitialized())
+	{
+		DmpLogError << "Finalizing failed" << DmpLogEndl;
+		return 0;
+	}
 	getchar();
 	return 0;
 }
