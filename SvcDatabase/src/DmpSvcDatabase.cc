@@ -71,6 +71,7 @@ std::fstream *DmpSvcDatabase::GetData(std::string t0)
 	printf("C: function calling is over\n");
 	PyArg_Parse(result_py, "s", &data_bubble);
 	//Should make name of data package random
+	std::cout << data_bubble;
 	fs.open("./data_package.txt", std::ios::out);
 	fs << data_bubble;
 	fs.close();
