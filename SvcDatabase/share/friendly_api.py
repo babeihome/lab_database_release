@@ -40,4 +40,9 @@ def Select(conn, TableName, Row_name_list=[], where=[]):
         print "Mysql Error %d: %s" % (e.args[0], e.args[1])
 
 
+def parameter_test(para):
+    print "P: Type of parameter is " + str(type(para))
+    print "P: Content: " + str(para)
+
+
 
