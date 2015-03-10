@@ -7,13 +7,18 @@ DmpSvcDatabase::DmpSvcDatabase()
  :DmpVSvc("DmpSvcDatabase")
 {
 	std::cout<<"\n\ninti..\n\n"<<std::endl;
-	this->GetData("50000000");
+	this->Test();
+	//this->GetData("50000000");
 }
 
 //-------------------------------------------------------------------
 DmpSvcDatabase::~DmpSvcDatabase(){
 }
 
+bool DmpSvcdatabase::Test()
+{
+	std::cout << "This is in test function";
+}
 //-------------------------------------------------------------------
 bool DmpSvcDatabase::Initialize(){
   return true;
