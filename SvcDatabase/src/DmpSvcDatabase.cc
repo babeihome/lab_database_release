@@ -15,7 +15,7 @@ DmpSvcDatabase::DmpSvcDatabase()
 DmpSvcDatabase::~DmpSvcDatabase(){
 }
 
-bool DmpSvcdatabase::Test()
+bool DmpSvcDatabase::Test()
 {
 	std::cout << "This is in test function";
 }
