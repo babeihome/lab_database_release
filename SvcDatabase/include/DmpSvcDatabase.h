@@ -4,6 +4,7 @@
 #include "DmpVSvc.h"
 #include <fstream>
 #include <vector>
+#include <mysql/mysql.h>
 
 class DmpSvcDatabase : public DmpVSvc{
 /*
@@ -26,6 +27,7 @@ public:
 
 private:
 	bool Test();
+	MYSQL mysql;
 };
 
 #endif
