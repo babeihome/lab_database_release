@@ -63,3 +63,12 @@ std::fstream *DmpSvcDatabase::GetData(std::string t0)
 	fs.close();
 	return 0;
 }
+
+bool DmpSvcDatabase::Import_pedestal(bool test, std::string path)
+{
+	if (test == true){
+		path = "/data/beamTest/2nd_2014_10/Calibration/DAMPE/Pedestal/PedestalPar"
+	}
+	
+	std::ifstream file(path);
+
