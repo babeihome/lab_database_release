@@ -28,6 +28,7 @@ bool DmpSvcDatabase::Initialize(){
 	//Test();
 	mysql_init(&mysql);
 	mysql_real_connect(&mysql, HOST, USER, PASSWD, DB, 3306, NULL, 0);
+	GetData("500000");
   	return true;
 }
 
@@ -50,14 +51,24 @@ std::fstream *DmpSvcDatabase::GetData(std::string t0)
 	MYSQL_RES * result = NULL;
 	MYSQL_ROW row;
 	std::fstream  fs;
-	if (!mysql_query(&mysql, order.c_str())){
+	if (mysql_query(&mysql, order.c_str())){
 		std::cout<<"query error"<<std::endl;
 		return 0;
 	}
 	result = mysql_store_result(&mysql);
 	row = mysql_fetch_row(result);
 	fs.open("./pedestal.txt",std::ios::out);
+	std::cout << row[1] << std::endl;
 	fs << row[0];
 	fs.close();
 	return 0;
 }
+
+bool DmpSvcDatabase::Import_pedestal(bool test, std::string path)
+{
+	if (test == true){
+		path = "/data/beamTest/2nd_2014_10/Calibration/DAMPE/Pedestal/PedestalPar"
+	}
+	
+	std::ifstream file(path);
+
