@@ -4,7 +4,7 @@ import friendly_api
 import MySQLdb
 
 def import_data():
-    clear_database()
+    clear_database(True)
     PATH = '/data/beamTest/2nd_2014_10/Calibration/DAMPE/Pedestal/PedestalPar'
     print "P: PATH is default setting\n"
     fp = open(PATH,"r")
@@ -65,16 +65,18 @@ def acquire_data(time):
     print "P: result type: " + str(type(result[4]))
     return result[4]
 
-def clear_database():
+def clear_database(isquiet):
     conn = MySQLdb.connect(host=config.HOST, user=config.USER, passwd=config.PASSWD, db=config.DATABASE, port=config.PORT) 
     cur = conn.cursor()
-    print "Do you want to clear up time_index table? (y/n)"
+    if not isquiet:
+    	print "Do you want to clear up time_index table? (y/n)"
     flat = raw_input()
     if flat is 'y':
         order = 'DELETE from time_index;'
         cur.execute(order)
         print "P: time_index has been cleared\n"
-    print "Do you want to clear up exp_data table? (y/n)"
+    if not isquiet:
+	print "Do you want to clear up exp_data table? (y/n)"
     flat = raw_input()
     if flat is 'y':
         order = 'DELETE from exp_data;'
@@ -89,7 +91,7 @@ def main():
     flat = raw_input()
     if flat == '1':
         import_data()
-    else if flat == '2':
-        clear_database()
+    elif flat == '2':
+        clear_database(False)
 
 main()
