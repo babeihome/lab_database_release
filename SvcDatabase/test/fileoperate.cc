@@ -18,20 +18,24 @@ int main()
 	ifstream infile("./test.txt");
 	if (!infile)
 	{
-		cout<< "file is not existed";
+		cout<< "file is not existed"<<endl;
+		return 0;
 	}
 
 	string line;
 	char one_line[20];
-
-	while (!infile.eof())
+	int n = 0; 
+	while (!infile.eof()&& n<10)
 	{
-		infile >> one_line;
+		infile.get(one_line,20, '\n');
 		cout << one_line << endl;
 		strcpy(one_line, "");
+		n++;
+		infile.get();
 	}
 	cout << "end" <<endl;
 	infile.close();
+	cout << "there is after .close()" << endl;
 	return 1;
 }
 

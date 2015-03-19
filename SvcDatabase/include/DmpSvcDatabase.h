@@ -24,10 +24,10 @@ public:
   bool LinkMySQL(std::string userName="DAMPEDB");
   std::fstream *GetData(std::string t0);		// return a file which contains all parameter, refer to t0
   std::fstream *GetData(std::vector<std::string> conditions);
-
+  bool Import_pedestal(bool test,std::string path);
 private:
 	bool Test();
-	MYSQL mysql;
+	MYSQL conn;
 };
 
 #endif

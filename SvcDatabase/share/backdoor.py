@@ -70,14 +70,21 @@ def clear_database(isquiet):
     cur = conn.cursor()
     if not isquiet:
     	print "Do you want to clear up time_index table? (y/n)"
-    flat = raw_input()
+    	flat = raw_input()
+    else:
+	flat = 'y'
+
     if flat is 'y':
         order = 'DELETE from time_index;'
         cur.execute(order)
         print "P: time_index has been cleared\n"
+
     if not isquiet:
 	print "Do you want to clear up exp_data table? (y/n)"
-    flat = raw_input()
+        flat = raw_input()
+    else:
+	flat = 'y'
+
     if flat is 'y':
         order = 'DELETE from exp_data;'
         cur.execute(order)
