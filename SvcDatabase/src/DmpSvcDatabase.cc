@@ -7,6 +7,8 @@
 #define USER "cong"
 #define PASSWD "cong"
 #define DB "DmpSWDBTest"
+
+using namespace std;
 //-------------------------------------------------------------------
 DmpSvcDatabase::DmpSvcDatabase()
  :DmpVSvc("DmpSvcDatabase")
@@ -66,9 +68,21 @@ std::fstream *DmpSvcDatabase::GetData(std::string t0)
 
 bool DmpSvcDatabase::Import_pedestal(bool test, std::string path)
 {
+	int para_num = 0;
 	if (test == true){
 		path = "/data/beamTest/2nd_2014_10/Calibration/DAMPE/Pedestal/PedestalPar"
+		para_num = 3;
 	}
 	
-	std::ifstream file(path);
-	
+	std::ifstream infile(path);
+	char * one_line = 0;
+	one_line = (char *)malloc(sizeof(char)*20);
+	vector<string> data_vector;
+	if(!infile)
+	{
+		cout<< "Targeted file is not existed";
+	}
+	for(int para_count = 0; para_count < para_num; para_count++)
+	{
+		
+		
