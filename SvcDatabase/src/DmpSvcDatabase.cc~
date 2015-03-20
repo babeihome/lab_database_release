@@ -28,7 +28,7 @@ bool DmpSvcDatabase::Test()
 //-------------------------------------------------------------------
 bool DmpSvcDatabase::Initialize(){
 	mysql_init(&conn);
-	if (&conn == NULL&&0){
+	if (&conn == NULL){
 		printf("Error %u: %s\n", mysql_errno(&conn), mysql_error(&conn));
 		return 0;
 	}
@@ -76,30 +76,39 @@ std::fstream *DmpSvcDatabase::GetData(std::string t0)
 		fs << row[0];
 		fs.close();
 	}
+	else{
+		cout << "No data selected" << endl;
+	}
 	return 0;
 }
 
 bool DmpSvcDatabase::Import_pedestal(bool test, std::string path)
 {
 	int para_num = 0;
+	char one_line[20];
+	string one_line_str;
+	vector<string> data_vector;
+	vector<string> para_name;
+	
+	// open file and check
 	if (test == true){
 		path = "/data/beamTest/2nd_2014_10/Calibration/DAMPE/Pedestal/PedestalPar";
 		para_num = 3;
 	}
-	
 	std::ifstream infile(path.c_str());
-	char one_line[20];
-	string one_line_str;
-	vector<string> data_vector;
 	if(!infile)
 	{
 		cout<< "Targeted file is not existed" << endl;
 	}
+
+	//read in the parameter
 	for(int para_count = 0; para_count < para_num; para_count++)
 	{
 		infile >> one_line;
 		one_line_str = one_line;
 		data_vector.push_back(one_line_str);
 	}
+	insert_one(para_name,data_vector);
+
 	return 1;	
 }	

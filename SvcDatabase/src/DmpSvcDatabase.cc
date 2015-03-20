@@ -54,6 +54,15 @@ bool DmpSvcDatabase::LinkMySQL(std::string userName)
 	std::cout<<"\tinput uname = "<<userName<<std::endl;
 	return true;
 }
+char * strcpy(char * strDest,const char * strSrc)
+{
+	if ((NULL==strDest) || (NULL==strSrc)) //[1]
+		cout<< "Invalid argument(s)"; //[2]
+	char * strDestCopy = strDest; //[3]
+	while ((*strDest++=*strSrc++)!='\0'); //[4]
+	return strDestCopy;
+}
+
 
 std::fstream *DmpSvcDatabase::GetData(std::string t0)
 {
@@ -76,30 +85,76 @@ std::fstream *DmpSvcDatabase::GetData(std::string t0)
 		fs << row[0];
 		fs.close();
 	}
+	else{
+		cout << "No data selected" << endl;
+	}
 	return 0;
 }
 
 bool DmpSvcDatabase::Import_pedestal(bool test, std::string path)
 {
 	int para_num = 0;
-	if (test == true){
-		path = "/data/beamTest/2nd_2014_10/Calibration/DAMPE/Pedestal/PedestalPar";
-		para_num = 3;
-	}
-	
-	std::ifstream infile(path.c_str());
 	char one_line[20];
 	string one_line_str;
-	vector<string> data_vector;
+	string E_name;
+	//vector<string> data_vector;
+	vector<string> para_name;
+	map<string,string> data_dict;
+	map<strign,string> time_index;
+	// open file and check
+	if (test == true){
+		path = "/data/beamTest/2nd_2014_10/Calibration/DAMPE/Pedestal/PedestalPar";
+		para_num = 2;
+		para_name.push_back(new string("E_time0"));
+		para_name.push_back(new string("E_time1"));
+		para_name.push_back(new string("data_package"));
+	}
+	std::ifstream infile(path.c_str());
 	if(!infile)
 	{
 		cout<< "Targeted file is not existed" << endl;
 	}
+
+	//read in the parameter
+	infile >> one_line;
+	E_name = one_line;
+	strcpy(one_line, "");
+
 	for(int para_count = 0; para_count < para_num; para_count++)
 	{
 		infile >> one_line;
 		one_line_str = one_line;
-		data_vector.push_back(one_line_str);
+		data_dict.put(para_name[para_count],one_line_str);
+		strcpy(one_line,"");
+		//data_vector.push_back(one_line_str);
 	}
+	//insert_one(para_name,data_vector);
+	
+	ifstream in(path, ios::in);
+	istreambuf_iterator<char> beg(in), end;
+	string strdata(beg, end);
+	in.close();
+	
+	data_dict.put(para_name[para_num],strdata);
+	
+	InsertData("exp_data",data_dict);
+	
+	//data_vector.clear();
+	order = "SELECT S_time FROM set_data WHERE S_time <= " + data_dict["E_time0"] + "ORDER BY S_time DESC LIMIT 1";
+	
+	if (mysql_query(&conn, order.c_str())){
+		printf("Error %u: %s\n", mysql_errno(&conn), mysql_error(&conn));
+		return 0;
+	}
+	result = mysql_store_result(&conn);
+	num_fields = mysql_num_fields(result);
+	row = mysql_fetch_row(result);
+	if(row){
+		time_index.put("S_time", row[0]);
+		time_index.put("E_time0", data_dict["E_time0"]);
+		time_index.put("E_name",E_name);	
+	}		
+	InsertData("time_index",time_index);
+
 	return 1;	
 }	

@@ -28,6 +28,8 @@ public:
 private:
 	bool Test();
 	MYSQL conn;
+	char * strcpy(char * strDest, const char * strSrc);
+	void InsertData(char *table_name, map<string,string> data);
 };
 
 #endif

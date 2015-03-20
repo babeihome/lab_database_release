@@ -27,7 +27,8 @@ public:
   bool Import_pedestal(bool test,std::string path);
 private:
 	bool Test();
-	MYSQL *conn;
+	MYSQL conn;
+	char * strcpy(char * strDest, const char * strSrc);
 };
 
 #endif
