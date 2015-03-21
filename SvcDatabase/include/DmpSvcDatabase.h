@@ -5,6 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <mysql/mysql.h>
+#include <map>
 
 class DmpSvcDatabase : public DmpVSvc{
 /*
@@ -29,7 +30,7 @@ private:
 	bool Test();
 	MYSQL conn;
 	char * strcpy(char * strDest, const char * strSrc);
-	void InsertData(char *table_name, map<string,string> data);
+	void InsertData(const char *table_name, std::map<std::string,std::string> data);
 };
 
 #endif

@@ -1,7 +1,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-
+#include <map>
 using namespace std;
 
 char * strcpy(char * strDest,const char * strSrc)
@@ -15,27 +15,13 @@ char * strcpy(char * strDest,const char * strSrc)
 
 int main()
 {
-	ifstream infile("./test.txt");
-	if (!infile)
-	{
-		cout<< "file is not existed"<<endl;
-		return 0;
+	map<string,string> map1;
+	map1["abc"] = "cba";
+	map<string, string>::iterator map_iter = map1.begin();
+	for(map_iter; map_iter != map1.end(); map_iter ++){
+		cout << map_iter->first << endl;
 	}
-
-	string line;
-	char one_line[20];
-	int n = 0; 
-	while (!infile.eof()&& n<10)
-	{
-		infile.get(one_line,20, '\n');
-		cout << one_line << endl;
-		strcpy(one_line, "");
-		n++;
-		infile.get();
-	}
-	cout << "end" <<endl;
-	infile.close();
-	cout << "there is after .close()" << endl;
 	return 1;
+
 }
 
