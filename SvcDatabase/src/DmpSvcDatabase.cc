@@ -33,7 +33,7 @@ bool DmpSvcDatabase::Initialize(){
 		printf("Error %u: %s\n", mysql_errno(&conn), mysql_error(&conn));
 		return 0;
 	}
-
+	logfile.open("./log.txt");
 	if(!mysql_real_connect(&conn, HOST, USER, PASSWD, DB, 3306, NULL, 0))
 	{
 		printf("Error %u: %s\n", mysql_errno(&conn), mysql_error(&conn));
@@ -48,7 +48,8 @@ bool DmpSvcDatabase::Initialize(){
 bool DmpSvcDatabase::Finalize(){
 	//std::cout<<""<<std::endl;
 	mysql_close(&conn);
-  return true;
+  	logfile.close();
+	return true;
 }
 
 bool DmpSvcDatabase::LinkMySQL(std::string userName)
@@ -146,7 +147,7 @@ bool DmpSvcDatabase::Import_pedestal(bool test, std::string path)
 	
 	//data_vector.clear();
 	order = "SELECT S_time FROM set_data WHERE S_time <= " + data_dict["E_time0"] + " ORDER BY S_time DESC LIMIT 1";
-	cout<< order <<endl;	
+	logfile<< order <<endl;	
 	if (mysql_query(&conn, order.c_str())){
 		printf("Error %u: %s\n", mysql_errno(&conn), mysql_error(&conn));
 		return 0;
@@ -165,7 +166,6 @@ bool DmpSvcDatabase::Import_pedestal(bool test, std::string path)
 		time_index["E_name"] = E_name;	
 	}		
 	InsertData("time_index",time_index);
-
 	return 1;	
 }
 
@@ -177,17 +177,18 @@ void DmpSvcDatabase::InsertData(const char *table_name, map<string,string> data)
 	string order;
 	string table_name_str = table_name;
 
+
 	MYSQL_RES *result;
 	MYSQL_ROW row;
 	for(DI p = data.begin(); p != data.end(); p++)
 	{
-		para_name_set += (p->first + ",");
-		value_set += (p->second + ",");	
+		para_name_set += ( p->first + ",");
+		value_set += ("\"" + p->second + "\",");	
 	}
 	para_name_set = para_name_set.substr(0, para_name_set.length() - 1 );
 	value_set = value_set.substr(0, value_set.length() - 1 );
 	order = "INSERT INTO " + table_name_str + "(" + para_name_set + ")" + " VALUES (" + value_set + ")";
-	cout << order <<endl;
+	logfile << order <<endl;
 	if (mysql_query(&conn, order.c_str())){
 		printf("Error %u: %s\n", mysql_errno(&conn), mysql_error(&conn));
 		return;

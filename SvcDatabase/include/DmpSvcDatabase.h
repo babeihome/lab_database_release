@@ -28,9 +28,11 @@ public:
   bool Import_pedestal(bool test,std::string path);
 private:
 	bool Test();
+	std::ofstream logfile;
 	MYSQL conn;
 	char * strcpy(char * strDest, const char * strSrc);
 	void InsertData(const char *table_name, std::map<std::string,std::string> data);
+	
 };
 
 #endif

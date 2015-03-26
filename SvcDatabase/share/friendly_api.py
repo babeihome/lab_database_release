@@ -3,6 +3,7 @@ import MySQLdb
 
 def InsertData(conn, TableName, dic):
     try:
+	logfile = open('./pythonlog.txt','w')
         cur = conn.cursor()
         COLstr = ''
         ROWstr = ''
@@ -14,6 +15,8 @@ def InsertData(conn, TableName, dic):
         COLstr = COLstr.lstrip(',')
         ROWstr = ROWstr.lstrip(',')
         order = 'INSERT INTO %s(%s) VALUES (%s)' % (TableName, COLstr, ROWstr)
+	logfile.write(order)
+	logfile.close()
         cur.execute(order)
         conn.commit()
         cur.close()
