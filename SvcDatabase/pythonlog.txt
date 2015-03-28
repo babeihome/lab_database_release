@@ -1,0 +1,1 @@
+INSERT INTO time_index(E_name,E_time0,S_time) VALUES ("A2Data00_20141117_135210","59233051","0")

@@ -7,12 +7,22 @@
 #include <mysql/mysql.h>
 #include <map>
 
+
+typedef std::map<int, std::vector<double> >	DmpParameterHolder;
+typedef std::map<std::string, std::string>	DmpParameterSteering;
+
 class DmpSvcDatabase : public DmpVSvc{
 /*
  *  DmpSvcDatabase
  *
  */
 public:
+	static DmpSvcDatabase* GetInstance()
+	{
+		static DmpSvcDatabase Database;
+		return &Database;
+	}
+
   DmpSvcDatabase();
   ~DmpSvcDatabase();
 
@@ -26,13 +36,17 @@ public:
   std::fstream *GetData(std::string t0);		// return a file which contains all parameter, refer to t0
   std::fstream *GetData(std::vector<std::string> conditions);
   bool Import_pedestal(bool test,std::string path);
+  
+  bool Import_pedestal(std::ifstream *fs, std::string type);
 private:
 	bool Test();
 	std::ofstream logfile;
 	MYSQL conn;
 	char * strcpy(char * strDest, const char * strSrc);
 	void InsertData(const char *table_name, std::map<std::string,std::string> data);
-	
+
 };
+
+extern DmpSvcDatabase *gDatabase;
 
 #endif

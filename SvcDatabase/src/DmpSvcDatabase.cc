@@ -39,8 +39,8 @@ bool DmpSvcDatabase::Initialize(){
 		printf("Error %u: %s\n", mysql_errno(&conn), mysql_error(&conn));
 		return 0;
 	}
-	//GetData("500000");
-	Import_pedestal(true, "");
+	GetData("500000");
+	//Import_pedestal(true, "");
   	return true;
 }
 
@@ -206,3 +206,4 @@ void DmpSvcDatabase::InsertData(const char *table_name, map<string,string> data)
 }
 
 
+DmpSvcDatabase *gDatabase = DmpSvcDatabase::GetInstance();

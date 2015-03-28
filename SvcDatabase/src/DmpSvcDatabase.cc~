@@ -39,8 +39,8 @@ bool DmpSvcDatabase::Initialize(){
 		printf("Error %u: %s\n", mysql_errno(&conn), mysql_error(&conn));
 		return 0;
 	}
-	//GetData("500000");
-	Import_pedestal(true, "");
+	GetData("500000");
+	//Import_pedestal(true, "");
   	return true;
 }
 
@@ -182,7 +182,7 @@ void DmpSvcDatabase::InsertData(const char *table_name, map<string,string> data)
 	MYSQL_ROW row;
 	for(DI p = data.begin(); p != data.end(); p++)
 	{
-		para_name_set += ("\"" + p->first + "\",");
+		para_name_set += ( p->first + ",");
 		value_set += ("\"" + p->second + "\",");	
 	}
 	para_name_set = para_name_set.substr(0, para_name_set.length() - 1 );
